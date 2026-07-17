@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Writing &amp; Speaking — Jon Gottfried</title>
+<meta name="description" content="Writing, talks, and press from Jon Gottfried — essays on Medium, Twilio developer tutorials, All Things Open, and Forbes 30 Under 30.">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="canonical" href="https://www.jonmarkgo.com/articles/">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Writing &amp; Speaking — Jon Gottfried">
+<meta property="og:description" content="Writing, talks, and press from Jon Gottfried — essays on Medium, Twilio developer tutorials, All Things Open, and Forbes 30 Under 30.">
+<meta property="og:url" content="https://www.jonmarkgo.com/articles/">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a1622'/%3E%3Ctext x='16' y='21.5' font-family='monospace' font-size='13' font-weight='700' fill='%23f96e5b' text-anchor='middle'%3EJG%3C/text%3E%3C/svg%3E">
+<script>
+(function () {
+  var d = document.documentElement;
+  d.classList.remove('no-js'); d.classList.add('js');
+  var isStatic = /(\?|&)static=1(&|$)/.test(location.search) ||
+    (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+  if (isStatic) { d.classList.add('static'); } else { d.classList.add('motion'); }
+})();
+</script>
+<style>
+/* ============ tokens (locked scale — reuse, never ad-hoc) ============ */
+:root{
+  --bg:        #0a1622;
+  --panel:     #10202f;
+  --panel-2:   #142737;
+  --line:      #1d3247;
+  --heading:   #e6edf6;
+  --body:      #8b98ad;
+  --body-dim:  #71809a;
+  --accent:    #f96e5b;
+  --accent-14: rgba(249,110,91,.14);
+  --accent-07: rgba(249,110,91,.07);
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  --fs-h1: clamp(2.55rem, 6vw, 3.4rem);
+  --fs-h2: clamp(1.05rem, 1.4vw, 1.2rem);
+  --fs-h3: clamp(.98rem, 1.2vw, 1.06rem);
+  --fs-p:  clamp(.95rem, 1.1vw, 1.02rem);
+  --fs-sm: .82rem;
+  --fs-xs: .72rem;
+  --gutter: clamp(24px, 6vw, 88px);
+  --sec-pad: clamp(56px, 9vh, 104px);
+  --maxw: 1240px;
+}
+/* ============ reset-ish ============ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+html.motion{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--body);
+  font-family:var(--sans);
+  font-size:var(--fs-p);
+  line-height:1.65;
+  overflow-x:hidden;
+  padding-bottom:96px; /* keeps disclaimer bar off the footer */
+}
+img,svg{max-width:100%;display:block}
+::selection{background:var(--accent);color:var(--bg)}
+a{color:inherit}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+.nw{white-space:nowrap}
+/* long mono repo/title tokens must break rather than overflow on small screens */
+.card h3 .nw,.row h3 .nw,.wrow h3 .nw{overflow-wrap:anywhere}
+@media (max-width:700px){
+  .card h3 .nw,.row h3 .nw,.wrow h3 .nw{white-space:normal}
+}
+
+/* inline text links — coral, accent underline grows on hover */
+.lnk{
+  color:var(--accent);
+  text-decoration:none;
+  background-image:linear-gradient(var(--accent),var(--accent));
+  background-repeat:no-repeat;
+  background-size:0% 1px;
+  background-position:0 100%;
+  transition:background-size .25s ease;
+}
+.lnk:hover,.lnk:focus-visible{background-size:100% 1px}
+
+/* ============ frame + two-column layout ============ */
+.frame{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+.layout{display:block}
+@media (min-width:1024px){
+  .layout{display:grid;grid-template-columns:45% 55%;gap:0}
+  .layout>*{min-width:0}
+}
+
+/* ============ left intro column ============ */
+header.intro{
+  padding-top:clamp(48px,10vh,96px);
+  padding-bottom:24px;
+  display:flex;flex-direction:column;
+}
+@media (min-width:1024px){
+  header.intro{
+    position:sticky;top:0;
+    height:100vh;
+    padding-top:clamp(56px,11vh,104px);
+    padding-bottom:clamp(48px,10vh,96px);
+    padding-right:clamp(24px,4vw,64px);
+    justify-content:space-between;
+  }
+}
+.idmark{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.monogram{
+  width:44px;height:44px;flex:0 0 44px;
+  border:1.5px solid var(--accent);border-radius:8px;
+  display:grid;place-items:center;
+  font-family:var(--mono);font-weight:700;font-size:.95rem;color:var(--accent);
+  letter-spacing:.05em;
+}
+.monogram svg{width:26px;height:26px}
+h1.name{
+  color:var(--heading);
+  font-size:var(--fs-h1);
+  font-weight:700;
+  letter-spacing:-.03em;
+  line-height:1.05;
+}
+.role{
+  margin-top:14px;
+  color:var(--heading);
+  font-size:clamp(1.02rem,1.6vw,1.22rem);
+  font-weight:500;
+}
+.ethos{
+  margin-top:14px;
+  max-width:34ch;
+  color:var(--body);
+  font-size:var(--fs-p);
+}
+/* --- type-enacts-meaning: "build" (mono coral). RESTING state = fully assembled. --- */
+.bw{font-family:var(--mono);font-weight:600;color:var(--accent);font-size:.95em}
+.bw i{display:inline-block;font-style:normal}
+html.motion .bw i{
+  animation:bw-settle .55s cubic-bezier(.22,1,.36,1) both;
+  animation-delay:calc(180ms + var(--i)*70ms);
+}
+@keyframes bw-settle{
+  from{opacity:0;transform:translateY(.55em)}
+  to{opacity:1;transform:none}
+}
+
+/* --- scroll-spy nav --- */
+nav.spy{display:none}
+@media (min-width:1024px){nav.spy{display:block;margin-top:clamp(32px,6vh,64px)}}
+nav.spy ul{list-style:none}
+nav.spy a{
+  display:flex;align-items:center;gap:0;
+  padding:9px 0;
+  text-decoration:none;
+  font-family:var(--mono);
+  font-size:var(--fs-xs);
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--body-dim);
+  transition:color .25s ease;
+}
+nav.spy a .bar{
+  display:inline-block;height:1px;width:28px;margin-right:14px;
+  background:var(--body-dim);
+  transition:width .3s ease,background-color .3s ease;
+}
+nav.spy a:hover,nav.spy a:focus-visible{color:var(--heading)}
+nav.spy a:hover .bar,nav.spy a:focus-visible .bar{background:var(--heading)}
+nav.spy a.active{color:var(--heading)}
+nav.spy a.active .bar{width:60px;background:var(--accent)}
+
+/* --- social row --- */
+.social{display:flex;gap:6px;margin-top:clamp(28px,5vh,48px);list-style:none}
+.social a{
+  display:grid;place-items:center;
+  width:42px;height:42px;border-radius:8px;
+  color:var(--body);
+  transition:color .25s ease,transform .25s ease,background-color .25s ease;
+}
+.social a:hover,.social a:focus-visible{color:var(--accent);background:var(--accent-07)}
+html.motion .social a:hover{transform:translateY(-3px)}
+.social svg{width:21px;height:21px;fill:currentColor}
+
+/* ============ right column / sections ============ */
+main{padding-top:clamp(16px,4vh,48px)}
+@media (min-width:1024px){main{padding-top:clamp(56px,11vh,104px)}}
+section{padding-bottom:var(--sec-pad)}
+section h2{
+  display:flex;align-items:center;gap:12px;
+  font-family:var(--mono);
+  font-size:var(--fs-h2);
+  font-weight:600;
+  color:var(--heading);
+  letter-spacing:.04em;
+  margin-bottom:26px;
+  white-space:nowrap;
+}
+section h2 .num{color:var(--accent);font-size:.88em;font-weight:500}
+section h2::after{content:"";height:1px;flex:1;background:var(--line);min-width:24px}
+section p{margin-bottom:1.05em;max-width:62ch}
+section p:last-child{margin-bottom:0}
+strong{color:var(--heading);font-weight:600}
+
+/* --- experience rows --- */
+ol.xp{list-style:none}
+.row{
+  display:grid;grid-template-columns:1fr;gap:4px 20px;
+  padding:18px 16px;margin:0 -16px 6px;
+  border-radius:10px;
+  transition:background-color .25s ease,transform .25s ease,box-shadow .25s ease;
+}
+@media (min-width:700px){.row{grid-template-columns:118px 1fr}}
+.row:hover{background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+html.motion .row:hover{transform:translateY(-3px)}
+.yrs{
+  font-family:var(--mono);font-size:var(--fs-xs);
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--body-dim);
+  padding-top:.35em;white-space:nowrap;
+}
+.row h3{font-size:var(--fs-h3);font-weight:600;color:var(--heading);line-height:1.4}
+.row h3 .org-lnk{color:inherit;text-decoration:none;transition:color .25s ease}
+.row:hover h3 .org-lnk,.row h3 .org-lnk:hover,.row h3 .org-lnk:focus-visible{color:var(--accent)}
+.row h3 .ext{display:inline-block;width:.85em;height:.85em;margin-left:.28em;vertical-align:-.06em;fill:currentColor;transition:transform .25s ease}
+html.motion .row:hover h3 .ext{transform:translate(2px,-2px)}
+.row .xbody{min-width:0}
+.row .xbody p{font-size:var(--fs-sm);color:var(--body);margin:6px 0 10px;max-width:56ch}
+ul.tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+ul.tags li{
+  font-family:var(--mono);font-size:var(--fs-xs);
+  color:var(--accent);
+  background:var(--accent-14);
+  padding:4px 11px;border-radius:99px;
+  white-space:nowrap;
+}
+
+/* --- project cards --- */
+ul.cards{list-style:none;display:grid;gap:14px}
+.card{
+  position:relative;
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:22px 22px 20px;
+  transition:transform .25s ease,border-color .25s ease,background-color .25s ease;
+  min-width:0;
+}
+.card:hover{border-color:rgba(249,110,91,.45);background:var(--panel-2)}
+html.motion .card:hover{transform:translateY(-4px)}
+.card h3{font-size:var(--fs-h3);font-weight:600;color:var(--heading);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card h3 a{color:inherit;text-decoration:none;transition:color .25s ease}
+.card h3 a::after{content:"";position:absolute;inset:0;border-radius:10px}
+.card:hover h3 a,.card h3 a:focus-visible{color:var(--accent)}
+.card h3 .ext{display:inline-block;width:.85em;height:.85em;margin-left:.28em;vertical-align:-.06em;fill:currentColor;transition:transform .25s ease}
+html.motion .card:hover h3 .ext{transform:translate(2px,-2px)}
+.card .meta{
+  font-family:var(--mono);font-size:var(--fs-xs);color:var(--body-dim);
+  display:inline-flex;align-items:center;gap:4px;
+}
+.card .meta .star{width:.95em;height:.95em;fill:currentColor}
+.card p{font-size:var(--fs-sm);margin:8px 0 12px;max-width:58ch}
+.archive-note{
+  margin-top:18px;
+  font-size:var(--fs-sm);
+  color:var(--body-dim);
+  max-width:62ch;
+}
+.archive-note .lnk{font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.04em}
+
+/* --- writing rows --- */
+ul.wr{list-style:none;display:grid;gap:6px}
+.wrow{
+  display:grid;grid-template-columns:1fr;gap:2px 20px;
+  padding:16px;margin:0 -16px;
+  border-radius:10px;
+  transition:background-color .25s ease,transform .25s ease,box-shadow .25s ease;
+}
+@media (min-width:700px){.wrow{grid-template-columns:118px 1fr}}
+.wrow:hover{background:var(--panel);box-shadow:inset 0 0 0 1px var(--line)}
+html.motion .wrow:hover{transform:translateY(-3px)}
+.wrow .kind{
+  font-family:var(--mono);font-size:var(--fs-xs);
+  letter-spacing:.08em;text-transform:uppercase;
+  color:var(--body-dim);padding-top:.3em;white-space:nowrap;
+}
+.wrow h3{font-size:var(--fs-h3);font-weight:600;color:var(--heading)}
+.wrow h3 .org-lnk{color:inherit;text-decoration:none;transition:color .25s ease}
+.wrow:hover h3 .org-lnk,.wrow h3 .org-lnk:hover{color:var(--accent)}
+.wrow h3 .ext{display:inline-block;width:.85em;height:.85em;margin-left:.28em;vertical-align:-.06em;fill:currentColor}
+.wrow p{font-size:var(--fs-sm);margin-top:4px;max-width:56ch}
+
+/* --- footer --- */
+footer{
+  padding:8px 0 40px;
+  font-size:var(--fs-sm);
+  color:var(--body-dim);
+  max-width:58ch;
+}
+footer p{margin-bottom:.6em}
+footer .fnav{font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.08em;text-transform:uppercase;margin-bottom:1em}
+footer .sig{font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.06em}
+
+/* ============ reveals — gated: default state is VISIBLE/finished ============ */
+html.motion .rv{opacity:0;transform:translateY(16px);transition:opacity .55s ease,transform .55s ease}
+html.motion .rv.in{opacity:1;transform:none}
+
+/* ============ cursor spotlight (desktop + motion only) ============ */
+#spot{display:none;position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(560px at var(--mx,60%) var(--my,40%),rgba(249,110,91,.05),transparent 72%)}
+@media (min-width:1024px) and (pointer:fine){
+  html.motion #spot{display:block}
+}
+.frame{position:relative;z-index:2}
+
+/* ============ reduced-motion belt & suspenders ============ */
+@media (prefers-reduced-motion: reduce){
+  html.motion *,html.motion *::before,html.motion *::after{
+    animation:none !important;transition:none !important;
+  }
+  html.motion .rv{opacity:1 !important;transform:none !important}
+  html{scroll-behavior:auto !important}
+}
+
+/* ============ storyboard chrome ============ */
+.sb-badge{
+  position:fixed;top:16px;right:16px;z-index:999;
+  padding:4px 10px;font-size:0.72rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid currentColor;border-radius:4px;
+  color:var(--body-dim);font-family:var(--mono);
+  background:rgba(10,22,34,.78);
+}
+.ribbon{
+  position:fixed;bottom:12px;left:12px;z-index:999;
+  font-family:var(--mono);font-size:.68rem;
+  letter-spacing:.1em;color:var(--body-dim);
+  background:rgba(10,22,34,.85);
+  padding:3px 8px;border-radius:4px;
+}
+.disclaimer{
+  position:fixed;bottom:0;left:0;right:0;z-index:998;
+  background:rgba(13,27,42,.96);
+  border-top:1px solid var(--line);
+  color:var(--body-dim);
+  font-size:11.5px;line-height:1.45;
+  padding:8px 14px 34px; /* bottom padding reserves a clear lane for the ribbon chip */
+  backdrop-filter:blur(4px);
+}
+.disclaimer a{color:var(--accent);text-decoration:none}
+.disclaimer a:hover{text-decoration:underline}
+@media (min-width:900px){.disclaimer{text-align:center;padding:7px 180px 8px}}
+@media (max-width:899px){body{padding-bottom:150px}}
+
+/* --- page nav (sibling pages: always visible, not scroll-spy) --- */
+nav.pnav{margin-top:clamp(28px,5vh,52px)}
+nav.pnav ul{list-style:none}
+nav.pnav a{display:flex;align-items:center;padding:9px 0;text-decoration:none;font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--body-dim);transition:color .25s ease}
+nav.pnav a .bar{display:inline-block;height:1px;width:28px;margin-right:14px;background:var(--body-dim);transition:width .3s ease,background-color .3s ease}
+nav.pnav a:hover,nav.pnav a:focus-visible{color:var(--heading)}
+nav.pnav a:hover .bar,nav.pnav a:focus-visible .bar{background:var(--heading)}
+nav.pnav a[aria-current="page"]{color:var(--heading)}
+nav.pnav a[aria-current="page"] .bar{width:60px;background:var(--accent)}
+h1.name a{color:inherit;text-decoration:none}
+h1.name a:hover{color:var(--accent)}
+/* --- intro lead paragraph on section pages --- */
+.lead{margin-bottom:34px;max-width:62ch}
+.grouphead{font-family:var(--mono);font-size:var(--fs-xs);letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin:34px 0 8px}
+.grouphead:first-of-type{margin-top:4px}
+/* --- inline star meta inside rows --- */
+.rmeta{font-family:var(--mono);font-size:var(--fs-xs);color:var(--body-dim);display:inline-flex;align-items:center;gap:4px;margin-left:8px;vertical-align:baseline}
+.rmeta .star{width:.9em;height:.9em;fill:currentColor}
+/* --- contact cards --- */
+ul.contact{list-style:none;display:grid;gap:14px;margin-top:8px}
+@media (min-width:560px){ul.contact{grid-template-columns:1fr 1fr}}
+.ccard{position:relative;display:flex;align-items:center;gap:14px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px;transition:transform .25s ease,border-color .25s ease,background-color .25s ease;text-decoration:none}
+.ccard:hover{border-color:rgba(249,110,91,.45);background:var(--panel-2)}
+html.motion .ccard:hover{transform:translateY(-4px)}
+.ccard .ico{width:38px;height:38px;flex:0 0 38px;border-radius:9px;display:grid;place-items:center;color:var(--accent);background:var(--accent-07);border:1px solid var(--line)}
+.ccard .ico svg{width:19px;height:19px;fill:currentColor}
+.ccard .ct{min-width:0}
+.ccard .ct b{display:block;color:var(--heading);font-size:var(--fs-h3);font-weight:600}
+.ccard .ct span{display:block;color:var(--body);font-size:var(--fs-sm);font-family:var(--mono);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ccard .ext{position:absolute;top:16px;right:16px;width:.85em;height:.85em;fill:var(--body-dim);transition:transform .25s ease,fill .25s ease}
+.ccard:hover .ext{fill:var(--accent)}
+html.motion .ccard:hover .ext{transform:translate(2px,-2px)}
+
+</style>
+</head>
+<body>
+<div id="spot" aria-hidden="true"></div>
+<div class="frame">
+  <div class="layout">
+    <header class="intro">
+      <div class="intro-top">
+        <div class="idmark"><span class="monogram" aria-hidden="true">JG</span></div>
+        <h1 class="name"><a href="index.html">Jon Gottfried</a></h1>
+        <p class="role">Co-Founder, Major League Hacking</p>
+        <p class="ethos">I build things — and communities of people who build them.</p>
+        <nav class="pnav" aria-label="Site navigation"><ul><li><a href="index.html"><span class="bar" aria-hidden="true"></span>Home</a></li><li><a href="projects.html"><span class="bar" aria-hidden="true"></span>Projects</a></li><li><a href="writing.html" aria-current="page"><span class="bar" aria-hidden="true"></span>Writing</a></li><li><a href="contact.html"><span class="bar" aria-hidden="true"></span>Contact</a></li></ul></nav>
+      </div>
+      <ul class="social" aria-label="Social links">
+        <li><a href="https://github.com/jonmarkgo" target="_blank" rel="noopener" aria-label="GitHub (opens in a new tab)">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a></li>
+        <li><a href="https://x.com/jonmarkgo" target="_blank" rel="noopener" aria-label="X / Twitter (opens in a new tab)">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865l8.875 11.633Z"/></svg>
+        </a></li>
+        <li><a href="https://www.linkedin.com/in/jonmarkgo/" target="_blank" rel="noopener" aria-label="LinkedIn (opens in a new tab)">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.63 13.63h-2.37V9.92c0-.89-.02-2.03-1.24-2.03-1.24 0-1.43.97-1.43 1.96v3.78H6.22V6h2.28v1.04h.03c.32-.6 1.09-1.24 2.25-1.24 2.4 0 2.85 1.58 2.85 3.64v4.19ZM3.54 4.96a1.38 1.38 0 1 1 0-2.75 1.38 1.38 0 0 1 0 2.75ZM4.73 13.63H2.36V6h2.37v7.63ZM14.82 0H1.18C.53 0 0 .52 0 1.16v13.68C0 15.48.53 16 1.18 16h13.63c.65 0 1.19-.52 1.19-1.16V1.16C16 .52 15.46 0 14.81 0Z"/></svg>
+        </a></li>
+        <li><a href="https://medium.com/@jonmarkgo" target="_blank" rel="noopener" aria-label="Medium (opens in a new tab)">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M9.025 8c0 2.485-2.02 4.5-4.513 4.5C2.021 12.5 0 10.485 0 8s2.02-4.5 4.512-4.5C7.004 3.5 9.025 5.515 9.025 8Zm4.95 0c0 2.34-1.01 4.236-2.256 4.236-1.246 0-2.256-1.897-2.256-4.236 0-2.34 1.01-4.236 2.256-4.236 1.246 0 2.256 1.897 2.256 4.236ZM16 8c0 2.096-.355 3.795-.794 3.795-.438 0-.793-1.7-.793-3.795 0-2.096.355-3.795.793-3.795.439 0 .794 1.699.794 3.795Z"/></svg>
+        </a></li>
+      </ul>
+    </header>
+    <main id="content">
+      <section aria-label="Writing">
+        <h2 class="rv"><span class="num">01.</span> Writing</h2>
+        <p class="lead rv">A honest, current set &mdash; every link loads. No phantom &ldquo;Latest Tweets,&rdquo; no widget waiting on a network that moved on.</p>
+        <ul class="wr">
+          <li class="wrow rv">
+            <span class="kind">Essays</span>
+            <div>
+              <h3><a class="org-lnk" href="https://medium.com/@jonmarkgo" target="_blank" rel="noopener"><span class="nw">Medium &mdash; @jonmarkgo<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>Writing on hackathons, developer communities, and the craft of teaching people to build.</p>
+            </div>
+          </li>
+          <li class="wrow rv">
+            <span class="kind">Farewell</span>
+            <div>
+              <h3><a class="org-lnk" href="https://www.jonmarkgo.com/so-long-and-thanks-for-all-the-shirts/" target="_blank" rel="noopener"><span class="nw">&ldquo;So Long And Thanks For All The Shirts&rdquo;<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>March 31, 2014 &mdash; his goodbye-to-Twilio post, and the last thing the old site ever published.</p>
+            </div>
+          </li>
+          <li class="wrow rv">
+            <span class="kind">Tutorial</span>
+            <div>
+              <h3><a class="org-lnk" href="https://www.twilio.com/blog/2013/10/building-screen-pops-with-twilio-client-and-fullcontact-api.html" target="_blank" rel="noopener"><span class="nw">Building Screen Pops with Twilio Client &amp; FullContact<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>October 30, 2013 &mdash; on the Twilio blog: surfacing caller context the instant the phone rings.</p>
+            </div>
+          </li>
+          <li class="wrow rv">
+            <span class="kind">Tutorial</span>
+            <div>
+              <h3><a class="org-lnk" href="https://www.twilio.com/blog/2013/05/using-google-glass-twilio-ruby-and-sinatra-to-send-and-receive-sms-messages.html" target="_blank" rel="noopener"><span class="nw">Google Glass + Twilio SMS with Ruby &amp; Sinatra<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>May 9, 2013 &mdash; sending and receiving text messages from a head-mounted display, when that still felt like the future.</p>
+            </div>
+          </li>
+          <li class="wrow rv">
+            <span class="kind">Archive</span>
+            <div>
+              <h3><a class="org-lnk" href="https://www.jonmarkgo.com/articles/" target="_blank" rel="noopener"><span class="nw">The full tutorial archive<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>Ten years of Twilio voice, SMS, and hardware write-ups &mdash; the complete list on his original blog.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section aria-label="Speaking">
+        <h2 class="rv"><span class="num">02.</span> Speaking</h2>
+        <ul class="wr">
+          <li class="wrow rv">
+            <span class="kind">Talk</span>
+            <div>
+              <h3><a class="org-lnk" href="https://allthingsopen.org/" target="_blank" rel="noopener"><span class="nw">All Things Open<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>2021 &mdash; on stage at one of the largest open-source conferences in the United States.</p>
+            </div>
+          </li>
+          <li class="wrow rv">
+            <span class="kind">Community</span>
+            <div>
+              <h3><span class="nw">Major League Hacking</span></h3>
+              <p>A decade of keynotes, opening ceremonies, and organizer workshops across the MLH hackathon season.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <section aria-label="Press">
+        <h2 class="rv"><span class="num">03.</span> Press</h2>
+        <ul class="wr">
+          <li class="wrow rv">
+            <span class="kind">Press</span>
+            <div>
+              <h3><a class="org-lnk" href="https://www.forbes.com/pictures/lmh45edlll/jonathan-gottfried-26/" target="_blank" rel="noopener"><span class="nw">Forbes 30 Under 30 &mdash; Education<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>2017 &mdash; recognized alongside MLH co-founder Mike Swift for the league&rsquo;s impact on developer education.</p>
+            </div>
+          </li>
+          <li class="wrow rv">
+            <span class="kind">Press</span>
+            <div>
+              <h3><a class="org-lnk" href="https://news.stonybrook.edu/alumni/jonathan-gottfried-11-makes-forbes-30-under-30-list-for-education" target="_blank" rel="noopener"><span class="nw">Stony Brook University &mdash; Alumni feature<svg class="ext" viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3h7v7h-1.6V5.7L4.6 12.5 3.5 11.4l6.8-6.8H6V3Z"/></svg></span></a></h3>
+              <p>His alma mater on the Forbes honor &mdash; class of 2011, later named to Stony Brook&rsquo;s 40 Under 40.</p>
+            </div>
+          </li>
+        </ul>
+      </section>
+      <footer class="rv">
+        <p class="fnav"><a class="lnk" href="index.html">Home</a> &nbsp;·&nbsp; <a class="lnk" href="projects.html">Projects</a> &nbsp;·&nbsp; <a class="lnk" href="writing.html">Writing</a> &nbsp;·&nbsp; <a class="lnk" href="contact.html">Contact</a></p>
+        <p class="sig">Built by varv &middot; self-contained, no trackers.</p>
+      </footer>
+    </main>
+  </div>
+</div>
+<div class="disclaimer">Unsolicited concept redesign by varv — not affiliated with, endorsed by, or authorized by Jonathan Gottfried. See the official site → <a href="https://www.jonmarkgo.com/" target="_blank" rel="noopener">jonmarkgo.com</a></div>
+<!-- ===== varv popup (Category-B: no first-name address in visible UI) ===== -->
+<style id="varv-popup-css">
+  #varv-popup{position:fixed;right:20px;bottom:20px;z-index:2147483000;width:340px;max-width:calc(100vw - 32px);box-sizing:border-box;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(14px);color:#14151a;background:rgba(252,252,251,.94);-webkit-backdrop-filter:saturate(1.1) blur(8px);backdrop-filter:saturate(1.1) blur(8px);border:1px solid rgba(20,21,26,.14);border-radius:16px;box-shadow:0 18px 50px -12px rgba(15,16,20,.34),0 2px 8px -2px rgba(15,16,20,.18);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;overflow:hidden}
+  #varv-popup.is-open{opacity:1;visibility:visible;pointer-events:auto;transform:translateY(0);transition:opacity .5s ease,transform .5s cubic-bezier(.22,.61,.36,1)}
+  #varv-popup.varv-static,#varv-popup.varv-static.is-open{transition:none !important}
+  @media (prefers-reduced-motion:reduce){#varv-popup,#varv-popup.is-open{transition:none !important}}
+  #varv-popup .vp-inner{padding:14px 14px 16px}
+  #varv-popup .vp-media{position:relative;margin:0 0 12px;border-radius:11px;overflow:hidden;background:rgba(20,21,26,.06);aspect-ratio:16/10}
+  #varv-popup .vp-media video{display:block;width:100%;height:100%;object-fit:cover;cursor:pointer;background:#0c0d10}
+  #varv-popup .vp-unmute{position:absolute;left:8px;bottom:8px;display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:600;letter-spacing:.01em;color:#fff;background:rgba(12,13,16,.62);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);cursor:pointer;user-select:none;border:0}
+  #varv-popup .vp-unmute[hidden]{display:none}
+  #varv-popup .vp-tag{margin:0 2px 12px;font-size:14px;line-height:1.4;font-weight:560;letter-spacing:-.005em;color:inherit}
+  #varv-popup .vp-ai{display:grid;gap:7px;margin:0 0 11px}
+  #varv-popup .vp-ai a{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;text-align:center;padding:10px 12px;border-radius:10px;font-size:13px;font-weight:600;letter-spacing:-.005em;color:inherit;background:rgba(20,21,26,.035);border:1px solid rgba(20,21,26,.16);transition:background .15s ease,border-color .15s ease,transform .05s ease}
+  #varv-popup .vp-ai a:hover{background:rgba(20,21,26,.075);border-color:rgba(20,21,26,.3)}
+  #varv-popup .vp-ai a:active{transform:translateY(.5px)}
+  #varv-popup.varv-static .vp-ai a{transition:none}
+  #varv-popup .vp-ai .vp-dot{width:7px;height:7px;border-radius:50%;flex:none}
+  #varv-popup .vp-book{display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;text-align:center;padding:12px 14px;border-radius:11px;font-size:14px;font-weight:700;letter-spacing:-.01em;color:#fcfcfb;background:#14151a;border:1px solid #14151a;transition:opacity .15s ease,transform .05s ease}
+  #varv-popup .vp-book:hover{opacity:.9}
+  #varv-popup .vp-book:active{transform:translateY(.5px)}
+  #varv-popup.varv-static .vp-book{transition:none}
+  #varv-popup .vp-close{position:absolute;top:8px;right:8px;z-index:2;width:28px;height:28px;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;cursor:pointer;color:#fff;background:rgba(12,13,16,.5);border:0;font-size:15px;line-height:1}
+  #varv-popup .vp-close:hover{background:rgba(12,13,16,.72)}
+  #varv-popup a:focus-visible,#varv-popup button:focus-visible,#varv-popup video:focus-visible{outline:2px solid #4f7cff;outline-offset:2px}
+  @media (prefers-color-scheme:dark){
+    #varv-popup{color:#f2f3f5;background:rgba(24,25,29,.92);border-color:rgba(255,255,255,.14);box-shadow:0 18px 50px -12px rgba(0,0,0,.6),0 2px 8px -2px rgba(0,0,0,.4)}
+    #varv-popup .vp-media{background:rgba(255,255,255,.05)}
+    #varv-popup .vp-ai a{background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.18)}
+    #varv-popup .vp-ai a:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.34)}
+    #varv-popup .vp-book{color:#14151a;background:#f2f3f5;border-color:#f2f3f5}
+  }
+  @media (max-width:400px){#varv-popup{right:12px;left:12px;bottom:12px;width:auto}}
+</style>
+<div id="varv-popup" role="dialog" aria-label="A note from varv" aria-live="polite">
+  <button type="button" class="vp-close" aria-label="Dismiss">&times;</button>
+  <div class="vp-inner">
+    <div class="vp-media">
+      <video muted playsinline preload="metadata" poster="assets/popup-poster.svg" aria-label="A short intro from Moksh at varv"></video>
+      <button type="button" class="vp-unmute" aria-label="Unmute video"><span aria-hidden="true">&#128266;</span> Tap for sound</button>
+    </div>
+    <p class="vp-tag">Don&rsquo;t take our word for it &mdash; ask your AI which site wins you business.</p>
+    <div class="vp-ai">
+      <a id="vp-chatgpt" href="#" target="_blank" rel="noopener"><span class="vp-dot" style="background:#10a37f"></span> Ask ChatGPT</a>
+      <a id="vp-claude" href="#" target="_blank" rel="noopener"><span class="vp-dot" style="background:#d97757"></span> Ask Claude</a>
+      <a id="vp-perplexity" href="#" target="_blank" rel="noopener"><span class="vp-dot" style="background:#20b8cd"></span> Ask Perplexity</a>
+    </div>
+    <a class="vp-book" href="https://cal.com/varv/15min" target="_blank" rel="noopener">Book 15 min &rarr;</a>
+  </div>
+</div>
+<script id="varv-popup-js">
+(function(){
+  "use strict";
+  var el = document.getElementById('varv-popup');
+  if(!el) return;
+  var qStatic = false;
+  try{ qStatic = new URLSearchParams(location.search).get('static') === '1'; }catch(e){}
+  var reduce = false;
+  try{ reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){}
+  var STATIC = qStatic || reduce;
+  if(STATIC) el.classList.add('varv-static');
+  var KEY = 'varv_popup_dismissed_v4';
+  var TTL = 30 * 24 * 60 * 60 * 1000;
+  function dismissedRecently(){
+    try{ var t = parseInt(localStorage.getItem(KEY), 10); return t && (Date.now() - t) < TTL; }catch(e){ return false; }
+  }
+  if(dismissedRecently()) return;
+  var VARV_PROMPT =
+"I'm Jonathan Gottfried, Co-Founder at Major League Hacking. Compare strictly these two websites and nothing else — my current site: https://www.jonmarkgo.com/ — and a redesign an agency built for me, unsolicited, as a working demo: https://angaramoksh-a11y.github.io/jon-gottfried/. Actually open and read both before you answer.\n\n\
+Step 1 — the comparison. Present it as one table and nothing else yet. Rows: what a founder or student deciding whether to trust me sees · what a partner or employer doing quiet diligence sees · what an AI answering a question about me sees · what staying on my current site costs me over the next 12 months. Be blunt in every cell — no hedging, no praise padding.\n\n\
+Step 2 — stop and make it about me. Do not give a verdict yet. Instead ask me: \"What do you most want this site to do for you over the next 12 months?\" — then, using what you actually saw on my two sites, give me exactly 4 numbered options tailored to me (not generic — each one grounded in my real work: MLH, developer community, open source, my builder story). Tell me to reply with the number that fits best. Then wait for my answer.\n\n\
+Step 3 — branch on my pick. Once I reply, continue for the goal I chose: give me a straight verdict on whether my current site serves that specific goal, what the redesign does differently for it, and the two or three highest-leverage things that goal actually needs. A recommendation against my goal, not a checklist.\n\n\
+Step 4 — the close. End by telling me plainly whether a 15-minute call with the team that built the demo is worth my time for the goal I picked, and what they'd concretely help me do. If it's worth it, say so directly.";
+  var q = encodeURIComponent(VARV_PROMPT);
+  var set = function(id, base){ var a = document.getElementById(id); if(a) a.href = base + q; };
+  set('vp-chatgpt', 'https://chatgpt.com/?q=');
+  set('vp-claude', 'https://claude.ai/new?q=');
+  set('vp-perplexity', 'https://www.perplexity.ai/search?q=');
+  var video = el.querySelector('.vp-media video');
+  var unmute = el.querySelector('.vp-unmute');
+  function doUnmute(){
+    if(!video) return;
+    try{ video.muted = false; video.volume = 1; var p = video.play(); if(p && p.catch) p.catch(function(){}); }catch(e){}
+    if(unmute) unmute.hidden = true;
+  }
+  if(video) video.addEventListener('click', doUnmute);
+  if(unmute) unmute.addEventListener('click', function(e){ e.stopPropagation(); doUnmute(); });
+  function focusables(){
+    return Array.prototype.slice.call(el.querySelectorAll('a[href], button:not([hidden]), video, [tabindex]:not([tabindex="-1"])')).filter(function(n){ return n.offsetParent !== null || n === document.activeElement; });
+  }
+  function onKeydown(e){
+    if(e.key === 'Escape'){ close(); return; }
+    if(e.key !== 'Tab') return;
+    var f = focusables(); if(!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if(e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+    else if(!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
+  }
+  function onDocClick(e){ if(el.classList.contains('is-open') && !el.contains(e.target)) close(); }
+  var opened = false;
+  function open(){
+    if(opened) return; opened = true;
+    el.classList.add('is-open');
+    if(video && !STATIC){ try{ var pp = video.play(); if(pp && pp.catch) pp.catch(function(){}); }catch(e){} }
+    document.addEventListener('keydown', onKeydown, true);
+    setTimeout(function(){ document.addEventListener('click', onDocClick, true); }, 0);
+    var c = el.querySelector('.vp-close'); if(c) c.focus();
+  }
+  function close(){
+    el.classList.remove('is-open');
+    document.removeEventListener('keydown', onKeydown, true);
+    document.removeEventListener('click', onDocClick, true);
+    try{ localStorage.setItem(KEY, String(Date.now())); }catch(e){}
+  }
+  var closeBtn = el.querySelector('.vp-close');
+  if(closeBtn) closeBtn.addEventListener('click', close);
+  if(STATIC){ open(); } else { setTimeout(open, 10000); }
+})();
+</script>
+
+<script>
+(function () {
+  var doc = document.documentElement;
+  if (!doc.classList.contains('motion')) return;
+  var rvs = document.querySelectorAll('.rv');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+    rvs.forEach(function (el) { io.observe(el); });
+  } else { rvs.forEach(function (el) { el.classList.add('in'); }); }
+  var spot = document.getElementById('spot');
+  if (spot && matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('pointermove', function (ev) {
+      spot.style.setProperty('--mx', ev.clientX + 'px');
+      spot.style.setProperty('--my', ev.clientY + 'px');
+    }, { passive: true });
+  }
+})();
+</script>
+</body>
+</html>
